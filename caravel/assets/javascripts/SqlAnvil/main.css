@@ -5,6 +5,15 @@
     right: 0;
     bottom: 0;
 }
+.inlineBlock {
+    display: inline-block;
+}
+.valignTop {
+    vertical-align: top;
+}
+.inline {
+    display: inline;
+}
 .nopadding {
     padding: 0px;
 }

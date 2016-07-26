@@ -8,11 +8,14 @@ const Link = React.createClass({
     href: React.PropTypes.string,
     onClick: React.PropTypes.func,
     tooltip: React.PropTypes.string,
+    placement: React.PropTypes.string,
   },
   getDefaultProps() {
     return {
       disabled: false,
       href: '#',
+      tooltip: null,
+      placement: 'top',
       onClick: () => {},
     };
   },
@@ -22,16 +25,27 @@ const Link = React.createClass({
         {this.props.tooltip}
       </Tooltip>
     );
-    return (
-      <OverlayTrigger overlay={tooltip} delayShow={300} delayHide={150}>
-        <a
-          href={this.props.href}
-          onClick={this.props.onClick}
-          className={"Link " + this.props.className}>
-            {this.props.children}
-        </a>
-      </OverlayTrigger>
+    const link = (
+      <a
+        href={this.props.href}
+        onClick={this.props.onClick}
+        className={"Link " + this.props.className}>
+          {this.props.children}
+      </a>
     );
+    if (this.props.tooltip) {
+      return (
+        <OverlayTrigger
+            overlay={tooltip}
+            placement={this.props.placement}
+            delayShow={300}
+            delayHide={150}>
+          {link}
+        </OverlayTrigger>
+      );
+    } else {
+      return link;
+    }
   }
 });
 

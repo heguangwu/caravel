@@ -5,6 +5,7 @@ import {
   REMOVE_QUERY_EDITOR,
   START_QUERY,
   STOP_QUERY,
+  REMOVE_QUERY,
   QUERY_SUCCESS,
   QUERY_FAILED,
   EXPAND_TABLE,
@@ -73,11 +74,11 @@ function addToArr(state, arrKey, obj) {
 }
 
 function sqlAnvilReducer(state = initialState, action) {
-  var alts;
+  var alts, tabHistory, qeIds;
   switch (action.type) {
 
     case ADD_QUERY_EDITOR:
-      var tabHistory = state.tabHistory.slice();
+      tabHistory = state.tabHistory.slice();
       tabHistory.push(action.queryEditor.id);
       state = Object.assign({}, state, { tabHistory });
       return addToArr(state, 'queryEditors', action.queryEditor);
@@ -85,11 +86,15 @@ function sqlAnvilReducer(state = initialState, action) {
     case REMOVE_QUERY_EDITOR:
       var newState = removeFromArr(state, 'queryEditors', action.queryEditor);
       // List of remaining queryEditor ids
-      var qeIds = newState.queryEditors.map((qe) => { return qe.id; });
+      qeIds = newState.queryEditors.map((qe) => { return qe.id; });
       var th = state.tabHistory.slice();
       th = th.filter((id) => { return qeIds.includes(id); });
       newState = Object.assign({}, newState, { tabHistory: th });
       return newState;
+
+    case REMOVE_QUERY:
+      console.log(action.query);
+      return removeFromArr(state, 'queries', action.query);
 
     case ADD_TABLE:
       return addToArr(state, 'tables', action.table);
@@ -155,9 +160,9 @@ function sqlAnvilReducer(state = initialState, action) {
       return removeFromArr(state, 'workspaceQueries', action.query);
 
     case SET_ACTIVE_QUERY_EDITOR:
-      var qeIds = state.queryEditors.map((qe) => { return qe.id; });
+      qeIds = state.queryEditors.map((qe) => { return qe.id; });
       if (qeIds.includes(action.queryEditor.id)) {
-        var tabHistory = state.tabHistory.slice();
+        tabHistory = state.tabHistory.slice();
         tabHistory.push(action.queryEditor.id);
         return Object.assign({}, state, { tabHistory });
       }

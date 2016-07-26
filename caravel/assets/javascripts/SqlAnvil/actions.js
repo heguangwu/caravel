@@ -5,6 +5,7 @@ export const REMOVE_TABLE = 'REMOVE_TABLE';
 export const START_QUERY = 'START_QUERY';
 export const STOP_QUERY = 'STOP_QUERY';
 export const END_QUERY = 'END_QUERY';
+export const REMOVE_QUERY = 'REMOVE_QUERY';
 export const EXPAND_TABLE = 'EXPAND_TABLE';
 export const COLLAPSE_TABLE = 'COLLAPSE_TABLE';
 export const QUERY_SUCCESS = 'QUERY_SUCCESS';
@@ -27,6 +28,10 @@ export function setActiveQueryEditor(queryEditor) {
 
 export function removeQueryEditor(queryEditor) {
   return { type: REMOVE_QUERY_EDITOR, queryEditor };
+}
+
+export function removeQuery(query) {
+  return { type: REMOVE_QUERY, query};
 }
 
 export function queryEditorSetDb(queryEditor, dbId) {

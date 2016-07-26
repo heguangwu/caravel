@@ -1199,9 +1199,15 @@ class Caravel(BaseCaravelView):
         cols = []
         t = mydb.get_columns(table_name)
         for col in t:
+            dtype = ""
+            try:
+                dtype = '{}'.format(col['type'])
+            except:
+                pass
             cols.append({
                 'name': col['name'],
-                'type': '{}'.format(col['type']),
+                'type': dtype.split('(')[0] if '(' in dtype else dtype,
+                'longType': dtype,
             })
         tbl = {
             'name': table_name,

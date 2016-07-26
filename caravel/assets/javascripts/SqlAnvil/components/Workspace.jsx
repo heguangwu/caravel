@@ -12,7 +12,6 @@ import Select from 'react-select'
 // CSS
 import 'react-select/dist/react-select.css';
 
-
 const Workspace = React.createClass({
   getInitialState: function() {
     return {
@@ -24,7 +23,7 @@ const Workspace = React.createClass({
   },
   getTableOptions: function(input, callback) {
     var that = this;
-    var url = '/tableasync/api/read?_oc_DatabaseAsync=database_name&_od_DatabaseAsync=asc';
+    var url = `//${window.location.host}/tableasync/api/read?_oc_DatabaseAsync=database_name&_od_DatabaseAsync=asc`;
     $.get(url, function (data) {
       var options = [];
       for (var i=0; i<data.pks.length; i++) {
@@ -39,7 +38,7 @@ const Workspace = React.createClass({
   changeDb: function (db) {
     this.setState({ tableLoading: true });
     var that = this;
-    var url = '/databasetablesasync/api/read?_flt_0_id=' + db.value;
+    var url = `//${window.location.host}/databasetablesasync/api/read?_flt_0_id=${db.value}`;
     $.get(url, function (data) {
       var tables = data.result[0].all_table_names;
       var options = [];
@@ -56,7 +55,7 @@ const Workspace = React.createClass({
     var tableName = tableOpt.value;
     this.setState({ tableName: tableName });
     var that = this;
-    var url = `/caravel/table/${this.props.workspaceDatabase.id}/${tableName}`;
+    var url = `//${window.location.host}/caravel/table/${this.props.workspaceDatabase.id}/${tableName}/`;
     $.get(url, function (data) {
       var options = [];
       that.props.actions.addTable({
@@ -77,7 +76,7 @@ const Workspace = React.createClass({
   fetchDatabaseOptions: function(input, callback) {
     this.setState({ databaseLoading: true });
     var that = this;
-    var url = '/databaseasync/api/read';
+    var url = `//${window.location.host}/databaseasync/api/read`;
     $.get(url, function (data) {
       var options = data.result.map((db) => {
         return { value: db.id, label: db.database_name };
